@@ -32,7 +32,7 @@ Autónoma de Madrid and a MSc in Sound and Music Computing (MSc) from
 Universitat Pompeu Fabra in Barcelona. Teresa was an organiser of the
 Embedded AI for NIME 2022 workshop.
 
-# Workshop Description
+# About the workshop
 
 Embedded computing technologies have long been present in NIME.
 Single-board computers such as Raspberry Pi or Bela, or microcontrollers
@@ -90,6 +90,7 @@ tutorial, each participant will have trained a custom neural network on
 their own data, as well as feel confident to create new NIMEs with
 machine learning.
 
+{% comment %}
 # Short description
 
 Embedded computing technologies have long been present in NIME but it is
@@ -97,32 +98,21 @@ challenging to deploy AI and machine learning models on such systems. In
 this hands-on workshop, we will provide participants with starting
 points to develop their own NIMEs with embedded platforms and machine
 learning models.
-
-# Preferred length of workshop
-
-**Full Day**
+{% endcomment %}
 
 # Technical and space requirements
 
 -   Projection screen and sound system for slides and presentations from
     laptop.
-
 -   Class or tutorial room with space for laptops and discussions.
-
 -   Internet connections for all participants (for downloading code):
     preferably a simple ethernet connection to run a basic wireless
     router in the room
-
 -   Power strips for plugging in laptops.
 
-**Presentation Mode:** We are primarily planning for in-person
-presentation. A virtual workshop is possible for participants who have
-their own Bela or Raspberry Pi at home. We do not suggest running a
-hybrid workshop as we would need a dedicated presenter to handle
-interactions with online participants and technical support to broadcast
-the tutorial content.
+**Presentation Mode:** This will be an in-person workshop
 
-# Optional Links
+# Links
 
 The workshop will build on materials used in previous NIME workshops and
 classes at the presenters' institutions, e.g.:
