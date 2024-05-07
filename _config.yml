@@ -1,0 +1,15 @@
+title: Building NIMEs with Embedded AI
+tagline: A workshop at NIME 2024
+email: charles.martin@anu.edu.au
+description: >- # this means to ignore newlines until "baseurl:"
+  A workshop at NIME2024 to provide participants with starting points 
+  for developing NIMEs with embedded platforms and machine learning models.
+baseurl: "" # the subpath of your site, e.g. /blog
+url: "" # the base hostname & protocol for your site, e.g. http://example.com
+
+plugins:
+  - jekyll-feed
+  - jekyll-remote-theme
+  - jekyll-paginate
+
+remote_theme: zivhub/monophase@main
