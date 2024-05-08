@@ -126,7 +126,7 @@ the tutorial content.
 
 # Optional Links
 
-The workshop will build on materials used in previous NIME workshops and
+This workshop builds on materials used in previous NIME workshops and
 classes at the presenters' institutions, e.g.:
 
 -   Making Predictive NIMEs with Neural Networks:
@@ -140,6 +140,9 @@ classes at the presenters' institutions, e.g.:
 -   Sound and Music Computing: Generative AI and Computer Music:
     <https://comp.anu.edu.au/courses/laptop-ensemble/lectures/11-genai/>
 
+-   pyBela + pyTorch + Cross-compilation Tutorial: <https://github.com/pelinski/pybela-pytorch-xc-tutorial>
+
+-   IMPSy - the Interactive Musical Prediction SYstem: <https://github.com/cpmpercussion/imps>
 [^1]: School of Computing, The Australian National University
 
 [^2]: Centre for Digital Music, Queen Mary University of London

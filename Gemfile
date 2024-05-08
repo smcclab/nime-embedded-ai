@@ -1,12 +1,10 @@
 source "https://rubygems.org"
 
 gem "jekyll", "~> 4.3.3"
-gem "minima", "~> 2.5"
 
 group :jekyll_plugins do
+  gem "monophase", :git => "git@github.com:cpmpercussion/monophase.git", :branch => "main" 
   gem "jekyll-feed", "~> 0.12"
-  gem "jekyll-remote-theme"
-  gem "jekyll-paginate"
 end
 
 platforms :mingw, :x64_mingw, :mswin, :jruby do

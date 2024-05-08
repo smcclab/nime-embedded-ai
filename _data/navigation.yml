@@ -1,2 +1,8 @@
+- title: About
+  url: /about/
 - title: Setup
   url: /setup/
+- title: Raspberry Pi
+  url: /rpi/
+- title: Bela
+  url: /bela/

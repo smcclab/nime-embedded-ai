@@ -9,7 +9,6 @@ url: "" # the base hostname & protocol for your site, e.g. http://example.com
 
 plugins:
   - jekyll-feed
-  - jekyll-remote-theme
   - jekyll-paginate
 
-remote_theme: zivhub/monophase@main
+theme: monophase
