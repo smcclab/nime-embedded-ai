@@ -1,5 +1,5 @@
 GIT
-  remote: git@github.com:cpmpercussion/monophase.git
+  remote: https://github.com/cpmpercussion/monophase.git
   revision: 43e480895f79ad853b961c918b74356271c7ca63
   branch: main
   specs:

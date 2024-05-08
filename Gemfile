@@ -3,7 +3,7 @@ source "https://rubygems.org"
 gem "jekyll", "~> 4.3.3"
 
 group :jekyll_plugins do
-  gem "monophase", :git => "git@github.com:cpmpercussion/monophase.git", :branch => "main" 
+  gem "monophase", :git => "https://github.com/cpmpercussion/monophase.git", :branch => "main" 
   gem "jekyll-feed", "~> 0.12"
 end
 
