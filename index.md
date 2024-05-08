@@ -6,9 +6,28 @@ layout: page
 
 Embedded computing technologies have long been present in NIME but it is
 challenging to deploy AI and machine learning models on such systems. In
-this hands-on workshop, we will provide participants with starting
-points to develop their own NIMEs with embedded platforms and machine
+this hands-on workshop, we will provide you with starting
+points to develop your own NIMEs with embedded platforms and machine
 learning models.
+
+# Schedule
+
+The workshop schedule is as follows (N.B.: order of presentation may change):
+
+- Intro (30 minutes)
+- [Raspberry Pi and IMPSy]({% link rpi.md %}) (2.5 hours)
+- Lunch
+- [pyBela, pyTorch, cross-compilation]({% link bela.md %}) (2.5 hours)
+- Closing (30 minutes)
+
+# Things to bring to the workshop
+
+- Your own laptop and power brick
+- A Raspberry Pi or Bela (if you have one) 
+- A USB MIDI controller or MIDI sound source (if you have one and want to use it with the Raspberry Pi)
+
+see the [setup page]({% link setup.md %}) for things you can do before the workshop to set up your laptop, Bela, or Raspberry Pi.
+
 
 # Organisers
 
