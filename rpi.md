@@ -65,6 +65,8 @@ Learning all the details of how to create MDRNNs is a bit beyond this workshop, 
 
 While LSTM-RNNs are a bit out of fashion compared with the _transformer_ approaches used in present large language models (LLMs), the purpose of this workshop is efficient neural network designs that work in an embedded setting (no data centres and no GPUs required), so MDRNNs are still a very good choice in this context.
 
+**TODO** Some more on MIDI and OSC and how IMPSY might need to be configured.
+
 ## 1. Installing IMPSY on your computer
 
 IMPSY is distributed as a code repository at <https://github.com/cpmpercussion/impsy>. We're going to try installing it in two ways: as a docker image and natively using Python and Poetry.
