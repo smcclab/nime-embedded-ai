@@ -38,7 +38,7 @@ By the end of the workshop, you should have tried out doing some of the followin
 
 # Workshop Tasks
 
-## 0. Learning about what IMPSy is, and how it works.
+## Learning about what IMPSy is, and how it works.
 
 IMPSY is a generative AI system designed to integrate into typical NIMEs. IMPSY's job is to receive inputs from a NIME's interface (e.g., knobs, sensors, controllers, etc) and send outputs to a NIME's sound/music generators (e.g., a MIDI synthesiser, Pd patch, Processing sketch).
 
@@ -67,7 +67,7 @@ While LSTM-RNNs are a bit out of fashion compared with the _transformer_ approac
 
 **TODO** Some more on MIDI and OSC and how IMPSY might need to be configured.
 
-## 1. Installing IMPSY on your computer
+## Installing IMPSY on your computer
 
 IMPSY is distributed as a code repository at <https://github.com/cpmpercussion/impsy>. We're going to try installing it in two ways: as a docker image and natively using Python and Poetry.
 
@@ -77,37 +77,57 @@ The downside of the Python/Poetry method is that configuring your system with Py
 
 Start with Docker and try out Python afterwards if you can get it working, it's important to be ok with abandoning the Python/Poetry install if it's beyond you as it might take too long and we have other things to do in this workshop!
 
-Here's what to do:
+So here's your first tasks:
 
-1. download IMPSY, either cloning the repo above or, at the website, click "Code" (big green button) and download zip.
+1. download IMPSY, either cloning the [repo above](https://github.com/cpmpercussion/impsy) or, at the [website](https://github.com/cpmpercussion/impsy), click "Code" (big green button) and download zip.
 
 2. **Docker Install**: ensure that you have _docker_ on your computer, if you don't, head to <https://www.docker.com> to get an installer and install it.
 
-  - using a command line, navigate to the directory where IMPSY's code is (e.g., for me on macos it's `/Users/charles/src/impsy`)
+3. using a command line, navigate to the directory where IMPSY's code is (e.g., for me on macos it's `/Users/charles/src/impsy`)
 
-  - **Install**: run `docker pull charlepm/impsy` -- this will download a docker image which has `impsy` (and it's dependencies) preinstalled
+4. **Install**: run `docker pull charlepm/impsy` -- this will download a docker image which has `impsy` (and it's dependencies) preinstalled
 
-  - **Run the container**: you can try out the docker container by running: `docker run -it charlepm/impsy`, this should leave you in a bash prompt with something like `root@07a13e52f703:/impsy#`
+## Testing IMPSY with Docker
 
-  - **Try some impsy commands**: you can see the commands in IMPSY by typing `poetry run ./start_impsy.py --help` into the bash prompt of your docker container. 
+So now we are going to try running IMPSY on your laptop in a Docker container (actually in _two_ docker containers, fancy!)
+
+The idea here is to help you _not_ need to install Python dependencies during this workshop. If you know what you are doing, feel free to install Python 3.11.x, then run `poetry install` (hope it works!).
+
+Here's steps to test IMPSY with Docker:
+
+1. **Run the container**: you can try out the docker container by running: `docker run -it --rm charlepm/impsy`, this should leave you in a bash prompt with something like `root@07a13e52f703:/impsy#`
+
+2. **Try some impsy commands**: you can see the commands in IMPSY by typing `poetry run ./start_impsy.py --help` into the bash prompt of your docker container. 
   
-  - You might like to try the command `poetry run ./start_impsy.py test-mdrnn` which sets up IMPSY's MDRNN to check everything is working. 
+3. You might like to try the command `poetry run ./start_impsy.py test-mdrnn` which sets up IMPSY's MDRNN to check everything is working. 
 
-  - Try the command `poetry run ./start_impsy.py run` to run IMPSY's interaction server. This should start generating data using the default configuration: a pre-trained 8-channel MDRNN, you'll see the outputs shown on the screen in MIDI format (numbers between 0 and 127).
+4. Try the command `poetry run ./start_impsy.py run` to run IMPSY's interaction server. This should start generating data using the default configuration: a pre-trained 8-channel MDRNN, you'll see the outputs shown on the screen in MIDI format (numbers between 0 and 127).
 
-  - You can type `Ctrl-C` (control key and then c held together) to exit IMPSY and type `exit` to exit the Docker container.
+5. You can type `Ctrl-C` (control key and then c held together) to exit IMPSY and type `exit` to exit the Docker container.
 
-3. **Docker Compose Setup**: let's try a whole IMPSY setup. This will involve starting two docker containers with the same image, one for IMPSY's `run` command (as above) and one for a web server that we can use to control IMPSY while it's running. Look in the `docker-compose.yml` file to see how this is set up.
+## Running two IMPSYs with Docker Compose
 
-  - **Lookign in `docker-compose.yml`: this file sets up two `charlepm/impsy` containers, and maps the important folders from the `impsy` directory (on your computer) to their location in the containers. The folders are `datasets`, `logs`, `models`, and one file `config.toml`. The 
+IMPSY has a web-based interface which is convenient, particularly when we run it on a Raspberry Pi. You actually need to run IMPSY _twice_ to get this working: one instance of IMPSY is the interaction/AI part, and another is the web user interface. You'll be able to conveniently check on the log files IMPSY has and edit it's configuration while it is running.
 
-  - run the command `docker-compose -f docker-compose.yml up` to bring everything online (yes its that easy, if you haven't tried docker compose before it feels a bit magical)
+We can coordinate this in Docker using the `docker compose` command that runs multiple containers and organises network connections between them. You can look in the `impsy/docker-compose.yml` to see how it is set up. Here's the steps to run two IMPSYs with Docker compose:
 
-  - you can see that it's working by going to `http://127.0.0.1:4000` in a browser
+1. **Look in `docker-compose.yml`**: this file sets up two `charlepm/impsy` containers, and maps the important folders from the `impsy` directory (on your computer) to their location in the containers. The folders are `datasets`, `logs`, `models`, and one file `config.toml`. The 
 
-  - **why are we looking in a browser now?** IMPSY has a web interface that lets you see/download/edit: log files that have been collected, datasets that have been collected, available model files, and the main configuration file for IMPSY `config.toml`.
+2. run the command `docker compose -f docker-compose.yml up` to bring everything online (yes its that easy, if you haven't tried docker compose before it feels a bit magical)
 
-  - **editing `config.toml`**: Now that IMPSY is up and running let's edit config.toml and define an interaction with a basic Pure Data patch. Remember that IMPSY in a Docker container can't use MIDI, but we can interact using OSC with Pure Data.
+3. you can see that it's working by going to `http://127.0.0.1:4000` in a browser
+
+**why are we looking in a browser now?** IMPSY has a web interface that lets you see/download/edit: log files that have been collected, datasets that have been collected, available model files, and the main configuration file for IMPSY `config.toml`.
+
+**editing `config.toml`**: Now that IMPSY is up and running let's edit `config.toml` and define an interaction with a basic Pure Data patch. Remember that IMPSY in a Docker container can't use MIDI, but we can interact using OSC with Pure Data. Click on "Edit Configuration" in the web UI and make sure that:
+
+- The `[model]` block has `dimension = 4`, `file = "musicMDRNN-dim4-layers2-units64-mixtures5-scale10.h5"`, and `size = "s"`
+- The `[osc]` block has `server_port = 6000` and `client_port = 6001`
+
+Click "Save Configuration" at the bottom. Restart the impsy docker containers and you should see different output from IMPSY with only three values, e.g. `out: [72, 115, 61]`.
+
+Open up `examples/workshop_example.pd` and you should see the levers start moving in the Pure Data patch! If so, it's working!
+
 
 4. **Basic IMPSY setup with Pure Data**.
 
@@ -126,15 +146,15 @@ Here's what to do:
   - **Test out IMPSY**: you should be able to test out IMPSY by running the same commands as inside the docker container: e.g., `poetry run ./start_impsy.py test-mdrnn`.
 
 
-## 2. Collecting some data and training a model
+## Collecting some data and training a model
 
-## 3. Running IMPSY on a Raspberry Pi
-
-
-## 4. Transferring a trained model to the Raspberry Pi
+## Running IMPSY on a Raspberry Pi
 
 
-## 5. Retrieving more data from the Raspberry Pi
+## Transferring a trained model to the Raspberry Pi
+
+
+## Retrieving more data from the Raspberry Pi
 
 
 # Wrap up
