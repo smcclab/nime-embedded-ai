@@ -150,12 +150,9 @@ Open up `examples/workshop_example.pd` and you should see the levers start movin
 
 ## Running IMPSY on a Raspberry Pi
 
-
 ## Transferring a trained model to the Raspberry Pi
 
-
 ## Retrieving more data from the Raspberry Pi
-
 
 # Wrap up
 
