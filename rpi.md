@@ -18,6 +18,9 @@ An assumption about the workshop is that you might know a bit about Python (e.g.
 
 This tutorial will work with: Raspberry Pi 3 Model B+, Raspberry Pi 4, Raspberry Pi 5, Raspberry Pi Zero 2 W. These are the models that specifically support the 64-bit Raspberry Pi OS which is required. I have been using RPi Zero 2 W because they are the _smallest_ and _cheapest_ and thus best[^1] for creating many musical instruments. The RPi 5 is _much_ faster and better in almost every way as long as you are ok with spending more money and having a physically larger board. If you are bringing your own Pi, make it a 4 or 5! Life will be good.
 
+[^1]: _arguably_ the best I suppose 🙃
+
+
 ## Requirements
 
 - Laptop with MacOS, Linux, or Windows which has: Docker and Python 3.11+
@@ -117,36 +120,44 @@ We can coordinate this in Docker using the `docker compose` command that runs mu
 
 3. you can see that it's working by going to `http://127.0.0.1:4000` in a browser
 
-**why are we looking in a browser now?** IMPSY has a web interface that lets you see/download/edit: log files that have been collected, datasets that have been collected, available model files, and the main configuration file for IMPSY `config.toml`.
+> **why are we looking in a browser now?** IMPSY has a web interface that lets you see/download/edit: log files that have been collected, datasets that have been collected, available model files, and the main configuration file for IMPSY `config.toml`.
 
-**editing `config.toml`**: Now that IMPSY is up and running let's edit `config.toml` and define an interaction with a basic Pure Data patch. Remember that IMPSY in a Docker container can't use MIDI, but we can interact using OSC with Pure Data. Click on "Edit Configuration" in the web UI and make sure that:
+**editing `config.toml`**: Now that IMPSY is up and running let's edit `config.toml` and define an interaction with a basic Pure Data patch. Remember that IMPSY in a Docker container can't use MIDI, but we can interact using OSC with Pure Data. Click on "Edit Configuration" in the web UI and look at the `[model]` and `[osc]` blocks.
 
-- The `[model]` block has `dimension = 4`, `file = "musicMDRNN-dim4-layers2-units64-mixtures5-scale10.h5"`, and `size = "s"`
-- The `[osc]` block has `server_port = 6000` and `client_port = 6001`
+Change the `[model]` block to look like:
+
+```
+[model]
+dimension = 4
+file = "models/musicMDRNN-dim4-layers2-units64-mixtures5-scale10.h5"
+size = "s" # Can be one of: xs, s, m, l, xl
+sigmatemp = 0.01
+pitemp = 1
+timescale = 1
+```
+
+Change the `[osc]` block to look like:
+
+```
+[osc]
+server_ip = "0.0.0.0" # IMPSY should listen on all addresses
+server_port = 6000 # port IMPSY listens on
+client_ip = "host.docker.internal" # this is docker's name for the host device
+client_port = 6001 # port that pd is listening on
+```
 
 Click "Save Configuration" at the bottom. Restart the impsy docker containers and you should see different output from IMPSY with only three values, e.g. `out: [72, 115, 61]`.
 
 Open up `examples/workshop_example.pd` and you should see the levers start moving in the Pure Data patch! If so, it's working!
 
 
-4. **Basic IMPSY setup with Pure Data**.
-
-5. **Set up IMPSY with Python**: for this you will need: _python 3.11_ and `poetry` to be installed on your computer. IMPSY really needs Python 3.11.x to work (not 3.8, not 3.12... etc), so you might need to think about having multiple pythons available.
-
-  - run `python --version` at a command line to see what version of Python you have.
-
-  - if you need to install **Python 3.11** you can theoretically get Python from [here](https://www.python.org/downloads/release/python-3119/), but you might have better luck installing `pyenv` to manage different python versions, you can see it [here](https://github.com/pyenv/pyenv?tab=readme-ov-file#installation).
-
-  - **Poetry**: Poetry is a dependency manager for Python packages, see <https://python-poetry.org>. To install Poetry, run this command: `curl -sSL https://install.python-poetry.org | python3 -`
-
-  - You can test your poetry install by running `poetry` on a command line.
-
-  - **Install IMPSY**: now you can run `poetry install` to install IMPSY's dependencies (hope this works!).
-
-  - **Test out IMPSY**: you should be able to test out IMPSY by running the same commands as inside the docker container: e.g., `poetry run ./start_impsy.py test-mdrnn`.
-
-
 ## Collecting some data and training a model
+
+Once you have Pd and IMPSY working in the previous example, you can now control your model with the sliders at the top of the patch and see the output from the model at the bottom.
+
+> **Log data:** IMPSY calls the data you collect "log" and they are text files with a `.log` extension. When you move the top sliders, IMPSY is logging the data so you are adding to the dataset! You can see your logged data in the `logs` folder or on the "Log Files" page of IMPSY's web interface.
+
+
 
 ## Running IMPSY on a Raspberry Pi
 
@@ -157,6 +168,37 @@ Open up `examples/workshop_example.pd` and you should see the levers start movin
 # Wrap up
 
 
+## Set up IMPSY natively with Python
 
-[^1]: _arguably_ the best I suppose 🙃
+There are good reasons to install IMPSY natively on your computer, that is, to run it without Docker. The complication is that IMPSY is specific about the Python version and packages you need and this can take longer to set up than one workshop. Here are the instructions if you want to try this yourself.
 
+For this you will need to install:
+
+- _python 3.11_ 
+- `poetry` 
+
+IMPSY _really_ needs Python 3.11.x to work (not 3.8, not 3.12... etc), so you might need to think about having multiple pythons available. The exact instructions here vary by system but we can confirm that valid install paths are available on MacOS, Windows, and Linux[^testing]. There are lots of ways to install Python and Poetry so here are the rough instructions that may need some research to help proceed:
+
+1. run `python --version` at a command line to see what version of Python you have.
+
+2. if you need to install **Python 3.11** you can theoretically get Python from [here](https://www.python.org/downloads/release/python-3119/), but you might have better luck installing `pyenv` to manage different python versions, you can see it [here](https://github.com/pyenv/pyenv?tab=readme-ov-file#installation).
+
+3. Once you have `pyenv`, you can run `pyenv install 3.11` and `pyenv global 3.11` to make sure that the `python` command maps to Python 3.11. 
+
+4. **Poetry**: Poetry is a dependency manager for Python packages, see <https://python-poetry.org>. To install Poetry, run this command: `curl -sSL https://install.python-poetry.org | python3 -`
+
+5. You can test your poetry install by running `poetry` on a command line.
+
+6. **Install IMPSY**: now you can run `poetry install` to install IMPSY's dependencies (hope this works!).
+
+7. **Test out IMPSY**: you should be able to test out IMPSY by running the same commands as inside the docker container: e.g., `poetry run ./start_impsy.py test-mdrnn`.
+
+Here's some platform specific advice which is broadly how _I_ would install things:
+
+> **Linux advice**: The above instructions tend to work most easily on Linux and `pyenv` works well there. You will need to follow the ["set up your shell environment for Pyenv"](https://github.com/pyenv/pyenv?tab=readme-ov-file#set-up-your-shell-environment-for-pyenv) following the "For bash" instructions if your default shell is bash. Install poetry with [the official installer](https://python-poetry.org/docs/#installing-with-the-official-installer).
+
+> **MacOS advice**: You can install `pyenv` with Homebrew: `brew install pyenv`. You will need to follow the ["set up your shell environment for Pyenv"](https://github.com/pyenv/pyenv?tab=readme-ov-file#set-up-your-shell-environment-for-pyenv)  following the "For Zsh" install instructions. Install poetry with [the official installer](https://python-poetry.org/docs/#installing-with-the-official-installer).
+
+> **Windows advice**: Using native Windows (not WSL), install [pyenv-win](https://github.com/pyenv-win/pyenv-win) with PowerShell (make sure no other Pythons are installed). I install [`pipx` on Windows with scoop](https://pipx.pypa.io/stable/installation/#on-windows) and then run `pipx install poetry` to install Poetry.
+
+[^testing]: It's true! We [test IMPSY](https://github.com/cpmpercussion/impsy/actions/workflows/python-app.yml) on Windows, MacOS and Linux! That might not help you feel good if your install isn't working.
