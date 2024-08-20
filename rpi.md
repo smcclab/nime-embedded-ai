@@ -161,9 +161,63 @@ Once you have Pd and IMPSY working in the previous example, you can now control 
 
 ## Running IMPSY on a Raspberry Pi
 
-## Transferring a trained model to the Raspberry Pi
+### Download the OS image and flash to an SD card
 
-## Retrieving more data from the Raspberry Pi
+IMPSY has a preinstalled SD card image that you can flash to an SD card so that yuo are ready to go[^sdpride], for this part of the tutorial, take a look at the [impsy-rpi-image-maker repository](https://github.com/cpmpercussion/impsy-rpi-image-maker).
+
+1. Go to the [releases page](https://github.com/cpmpercussion/impsy-rpi-image-maker/releases) and download the `.img.xz` file for the latest release. It should be about 1.2GB.
+
+2. Grab your 16GB+ SD card.
+
+3. Open the [Raspberry Pi OS Imager](https://www.raspberrypi.com/software/) and use it to open the `.img.xz` file and flash to your SD card.
+
+Not too hard! The SD card has a default login with username "pi" and password "raspberry". This is obviously a _terrible_ security practice, but it's not really designed to be connected to the internet so hopefully acceptable for our purposes. The  hostname is set to be`impsypi.local`.
+
+The SD card image has IMPSY already installed (in `~/impsy`). It is also configured to start IMPSY's interaction server at boot[^boot] as well as IMPSY's web user interface. 
+
+Finally, the SD card is configured to allow ethernet over USB so you can plug your Raspberry Pi into your laptop with a USB cable and access IMPSY features from a web browser (wow just like a bela!)
+
+[^sdpride]: I'm weirdly proud of this SD card image! Figuring out a good way to make a custom Raspberry Pi image was a bit challenging and quite fun. The details are documented in the repo so check it out.
+[^boot]: using two systemd services: `impsy-run.service` and `impsy-web.service`.
+
+### Connect the IMPSYpi to your computer
+
+1. Stick your SD card into the Raspberry Pi. 
+
+2. Connect the USB cable's "device" end to the Raspberry Pi. If it's a RPi Zero 2 W, use the USB host port, not the "power" port. If it's a 3B+, 4, or 5, use the USB power port.
+
+3. Hopefully some lights blink and your Pi seems to be booting...
+
+Connecting to the Raspberry Pi should be straightforward: if your computer knows about it over USB-ethernet, you can just type <http://impsypi.local:4000> into a web browser and see the web UI. The pi gives itself the IP address 192.168.1.107 so you might try <http://192.168.1.107:4000> as well if the above doesn't work.
+
+Now you can poke around the web UI and see what you can do. Most importantly, you can update the configuration file directly, download log files and generate or download datasets. You can't train new models from the web UI (yet!) and it's possibly a bad idea to train models on the slower Raspberry Pis anyway.
+
+> N.B.: I'm new to this whole ethernet over USB and SD card building business. I'm probably doing something wrong so if there are issues here please be patient and if you know a better way to set something up, let me know!
+
+Once you've verified that the web UI works, it's a good idea to try to connect to your pi via SSH. Open a terminal (if you're on macOS or Linux) or open Putty or another SSH app if you're on Windows and connect to the pi with:
+```
+ssh pi@impsypi.local
+```
+(remember that the password is `raspberry`)
+
+While you're here you might like to check on the IMPSY "run" service:
+```
+sudo systemctl status impsy-run.service
+```
+It should spit out some output from the "run" service. If you need to restart the run service (e.g., to load a new config) you can run:
+```
+sudo systemctl restart impsy-run.service
+```
+
+Congratulations! You've got an IMPSY pi! Time to do something with it.
+
+### Configuring your IMPSYpi
+
+
+
+### Transferring a trained model to the Raspberry Pi
+
+### Retrieving more data from the Raspberry Pi
 
 # Wrap up
 
