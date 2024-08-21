@@ -125,7 +125,6 @@ We can coordinate this in Docker using the `docker compose` command that runs mu
 **editing `config.toml`**: Now that IMPSY is up and running let's edit `config.toml` and define an interaction with a basic Pure Data patch. Remember that IMPSY in a Docker container can't use MIDI, but we can interact using OSC with Pure Data. Click on "Edit Configuration" in the web UI and look at the `[model]` and `[osc]` blocks.
 
 Change the `[model]` block to look like:
-
 ```
 [model]
 dimension = 4
@@ -137,7 +136,6 @@ timescale = 1
 ```
 
 Change the `[osc]` block to look like:
-
 ```
 [osc]
 server_ip = "0.0.0.0" # IMPSY should listen on all addresses
@@ -161,6 +159,19 @@ Once you have Pd and IMPSY working in the previous example, you can now control 
 
 ## Running IMPSY on a Raspberry Pi
 
+This section is about running IMPSY on a physical Raspberry Pi, we can do some experiments to demonstrate how it might work in practice.
+
+![An IMPSY Raspberry Pi Kit]({% link assets/impsy-kit-parts.jpg %})
+
+At the workshop we will have physical Raspberry Pi kits available to try out. These include:
+
+- a Raspberry Pi Zero 2 W
+- a 16GB SD card
+- a USB type-A to USB micro type-B cable
+- a USB host adapter.
+
+> At the workshop we will have 10 kits available so you might have to work together with another participant. If you have brought your own Pi, we will some extra blank SD cards that you can borrow for the day.
+
 ### Download the OS image and flash to an SD card
 
 IMPSY has a preinstalled SD card image that you can flash to an SD card so that yuo are ready to go[^sdpride], for this part of the tutorial, take a look at the [impsy-rpi-image-maker repository](https://github.com/cpmpercussion/impsy-rpi-image-maker).
@@ -169,7 +180,7 @@ IMPSY has a preinstalled SD card image that you can flash to an SD card so that 
 
 2. Grab your 16GB+ SD card.
 
-3. Open the [Raspberry Pi OS Imager](https://www.raspberrypi.com/software/) and use it to open the `.img.xz` file and flash to your SD card.
+3. Open the [Raspberry Pi OS Imager](https://www.raspberrypi.com/software/) and use it to open the `.img.xz` file and flash to your SD card. You'll need to select "custom image" under Operating System and your SD card from the storage menu. When it helpfully offers to customise the settings, click "no".
 
 Not too hard! The SD card has a default login with username "pi" and password "raspberry". This is obviously a _terrible_ security practice, but it's not really designed to be connected to the internet so hopefully acceptable for our purposes. The  hostname is set to be`impsypi.local`.
 
@@ -182,9 +193,11 @@ Finally, the SD card is configured to allow ethernet over USB so you can plug yo
 
 ### Connect the IMPSYpi to your computer
 
+![Connecting the Raspberry Pi kit together]({% link assets/impsy-kit-assembled.jpg %}) 
+
 1. Stick your SD card into the Raspberry Pi. 
 
-2. Connect the USB cable's "device" end to the Raspberry Pi. If it's a RPi Zero 2 W, use the USB host port, not the "power" port. If it's a 3B+, 4, or 5, use the USB power port.
+2. Connect the USB cable's "device" end to the Raspberry Pi. If it's a RPi Zero 2 W, **use the USB host port (marked USB in tiny writing)**, not the "power" port (marked PWR IN). If it's a 3B+, 4, or 5, use the USB power port.
 
 3. Hopefully some lights blink and your Pi seems to be booting...
 
@@ -212,6 +225,13 @@ sudo systemctl restart impsy-run.service
 Congratulations! You've got an IMPSY pi! Time to do something with it.
 
 ### Configuring your IMPSYpi
+
+With your IMPSYpi connected to your computer, point your browser at <http://impsypi.local:4000>.
+
+> **why are we looking in a browser now?** IMPSY has a web interface that lets you see/download/edit: log files that have been collected, datasets that have been collected, available model files, and the main configuration file for IMPSY `config.toml`.
+
+Click the configuration link on the IMPSY web interface and you can see the `config.toml` file that is loaded for IMPSY automatically on boot.
+
 
 
 
