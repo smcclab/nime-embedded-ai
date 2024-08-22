@@ -232,6 +232,46 @@ With your IMPSYpi connected to your computer, point your browser at <http://imps
 
 Click the configuration link on the IMPSY web interface and you can see the `config.toml` file that is loaded for IMPSY automatically on boot.
 
+### IMPSYpi with a microbit interface
+
+I brought some BBC micro:bit v2 boards which are provide some very convenient input and output channels. I've have a program flashed on them which:
+
+- sends out serial messages in the form `accel_x,accel_y,accel_z\n` when you move them
+- receives serial messages in the form `x,y,z\n`
+- sonifies either the output or input serial messages (badly!)
+- displays the input message state on the LED array.
+
+We can use these and the IMPSYpis to make tiny intelligent NIMEs with IMPSY!
+
+To use it, connect an IMPSYpi to your computer, navigate to <http://impsypi.local:4000>, and update the configuration so that:
+
+The model block looks like:
+```
+[model]
+dimension = 4
+file = "models/musicMDRNN-dim4-layers2-units64-mixtures5-scale10.h5"
+size = "s" # Can be one of: xs, s, m, l, xl
+sigmatemp = 0.01
+pitemp = 1
+timescale = 1
+```
+
+And there is a `serial` block:
+```
+[serial]
+port = "/dev/ttyACM0" # likely serial port on Raspberry Pi (also the default GPIO serial port name if enabled).
+baudrate = 115200 # a typical default choice of baudrate
+```
+(You can remove any other IO block (`midi`, `osc`, `websockets`, `serialmidi`).)
+
+Next step is to connect the microbit to the IMPSYpi, power it all up and hopefully after a minute or so you're hearing some really weird sound.
+
+> There's a wrinkle in the microbit/IMPSYpi plan: if you're doing this on a Raspberry Pi Zero 2 W we don't have a way to simultaneously have the Raspberry Pi connected to the computer and the microbit as there's only one USB port. This means we have to just _trust_ that the microbit will show up on `/dev/ttyACM0` and I have trust issues with my Raspberry's Pi.
+
+> The **sound** the microbit makes is fairly awful. I needed a quick workshop example and got something to work that would use three "values" from IMPSY to make a sound. Three is a nice number here because the microbit has a three-axis accelerometer. The code is in `exampels/microbit_serial_example.py` and you can flash your microbit with it using the Microbit's [micropython editor](https://python.microbit.org/v/3). The "sound" bit uses `audio.SoundEffect()` to synthesise some audio and `audio.play()` to send it to the speaker. There's quite a lot you can do with audio on the microbit (it's an underutilised NIME-capable platform!), including cool stuff like [bytebeat](https://cpmpercussion.github.io/twenty-three-hundred/labs/05-sound-and-light.html).
+
+### Pure Data with IMPSYpi
+
 
 
 
