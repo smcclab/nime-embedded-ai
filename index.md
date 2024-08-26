@@ -10,6 +10,10 @@ this hands-on workshop, we will provide you with starting
 points to develop your own NIMEs with embedded platforms and machine
 learning models.
 
+**Registration**: is available for NIME _Tuesday_ workshops through [this form](https://docs.google.com/forms/d/e/1FAIpQLSfBrSDocmkuPszYlV6ifYnh3Sc6u5oo6B4PaKKhMzrZtPfdag/viewform).
+
+<!-- Drop-ins for shorter periods or to replace no-shows are welcome to show up to listen and get started with software, but we cannot guarantee free seats or use of hardware we are bringing. -->
+
 # Schedule
 
 The workshop schedule is as follows (N.B.: order of presentation may change):
@@ -25,8 +29,11 @@ The workshop schedule is as follows (N.B.: order of presentation may change):
 - Your own laptop and power brick
 - A Raspberry Pi or Bela (if you have one) 
 - A USB MIDI controller or MIDI sound source (if you have one and want to use it with the Raspberry Pi)
+- Headphones with 3.5mm jack for the Belas.
+- USB-C to USB-A adapter if you only have USB-C ports on your computer.
+- SD card reader if you have one (helpful for the Raspberry Pi workshop, although not necessary)
 
-see the [setup page]({% link setup.md %}) for things you can do before the workshop to set up your laptop, Bela, or Raspberry Pi.
+If you want to be super prepared before the workshop, you can make sure that you have Docker and Pure Data installed on your laptop and you can browse the walkthroughs available on this site.
 
 
 # Organisers
