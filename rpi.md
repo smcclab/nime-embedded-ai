@@ -66,19 +66,25 @@ Learning all the details of how to create MDRNNs is a bit beyond this workshop, 
 - [Making Predictive NIMEs with Neural Networks](https://creativeprediction.xyz/presentations/intro/)
 - [An Interactive Musical Prediction System with MDRNNs](https://creativeprediction.xyz/presentations/imps)
 
-While LSTM-RNNs are a bit out of fashion compared with the _transformer_ approaches used in present large language models (LLMs), the purpose of this workshop is efficient neural network designs that work in an embedded setting (no data centres and no GPUs required), so MDRNNs are still a very good choice in this context.
+While LSTM-RNNs are a bit out of fashion compared with the _transformer_ approaches used in present large language models (LLMs), the purpose of this workshop is efficient neural network designs that work in an embedded setting (no data centres and no GPUs required), MDRNNs are still a very good choice in this context.
 
-**TODO** Some more on MIDI and OSC and how IMPSY might need to be configured.
+### Configuring IMPSY with synths and controllers
 
-## Installing IMPSY on your computer
+**TODO**
 
-IMPSY is distributed as a code repository at <https://github.com/cpmpercussion/impsy>. We're going to try installing it in two ways: as a docker image and natively using Python and Poetry.
+### The IMPSY workflow
 
-The downside of the docker container is that it won't know about MIDI devices on your system (OSC communication is fine).
+Although IMPSY includes some sample generative AI model files, ideally you would train your own models on your own data. IMPSY helps you do this in three steps:
 
-The downside of the Python/Poetry method is that configuring your system with Python can be an [absolute nightmare](https://xkcd.com/1987/).
+1. **collect data:** run IMPSY with your musical interface with or _without_ a machine learning model working. IMPSY saves your interaction data as `.log` files.
+2. **collate log files into a dataset:** collect one or more log files together in a `.npz` file in a format that is convenient for AI training. You can use the `dataset` command in IMPSY's CLI or use the web UI.
+3. **train an AI model:** run a training procedure on a dataset file to create a new generative AI model. You can only train models with the CLI.
 
-Start with Docker and try out Python afterwards if you can get it working, it's important to be ok with abandoning the Python/Poetry install if it's beyond you as it might take too long and we have other things to do in this workshop!
+## Installing IMPSY with Docker
+
+IMPSY is distributed as a code repository at <https://github.com/cpmpercussion/impsy>. We're going to try installing it as a docker container.
+
+The downside of the docker container is that it won't know about MIDI devices on your system (OSC communication is fine). You can also install IMPSY directly using Poetry and Python but it can be [tricky](https://xkcd.com/1987/). So start with Docker and go for native Python later if you have time.
 
 So here's your first tasks:
 
@@ -90,13 +96,9 @@ So here's your first tasks:
 
 4. **Install**: run `docker pull charlepm/impsy` -- this will download a docker image which has `impsy` (and it's dependencies) preinstalled
 
-## Testing IMPSY with Docker
+### Testing the Docker image
 
-So now we are going to try running IMPSY on your laptop in a Docker container (actually in _two_ docker containers, fancy!)
-
-The idea here is to help you _not_ need to install Python dependencies during this workshop. If you know what you are doing, feel free to install Python 3.11.x, then run `poetry install` (hope it works!).
-
-Here's steps to test IMPSY with Docker:
+So now we are going to try running IMPSY on your laptop in a Docker container (actually in _two_ docker containers, fancy!) Here's steps to test IMPSY with Docker:
 
 1. **Run the container**: you can try out the docker container by running: `docker run -it --rm charlepm/impsy`, this should leave you in a bash prompt with something like `root@07a13e52f703:/impsy#`
 
@@ -108,7 +110,7 @@ Here's steps to test IMPSY with Docker:
 
 5. You can type `Ctrl-C` (control key and then c held together) to exit IMPSY and type `exit` to exit the Docker container.
 
-## Running two IMPSYs with Docker Compose
+### Running two IMPSYs with Docker Compose
 
 IMPSY has a web-based interface which is convenient, particularly when we run it on a Raspberry Pi. You actually need to run IMPSY _twice_ to get this working: one instance of IMPSY is the interaction/AI part, and another is the web user interface. You'll be able to conveniently check on the log files IMPSY has and edit it's configuration while it is running.
 
@@ -149,11 +151,12 @@ Click "Save Configuration" at the bottom. Restart the impsy docker containers an
 Open up `examples/workshop_example.pd` and you should see the levers start moving in the Pure Data patch! If so, it's working!
 
 
-## Collecting some data and training a model
+### Collecting some data and training a model
 
 Once you have Pd and IMPSY working in the previous example, you can now control your model with the sliders at the top of the patch and see the output from the model at the bottom.
 
 > **Log data:** IMPSY calls the data you collect "log" and they are text files with a `.log` extension. When you move the top sliders, IMPSY is logging the data so you are adding to the dataset! You can see your logged data in the `logs` folder or on the "Log Files" page of IMPSY's web interface.
+
 
 
 
@@ -306,9 +309,29 @@ The pd example should start receiving messages from the IMPSYpi, but to send mes
 
 ### Transferring a trained model to the Raspberry Pi
 
+You can transfer trained models to the Raspberry Pi through the web interface. 
+
+1. Head to <http://impsypi.local:4000>
+2. click on the "Model Files" link
+3. click "Choose File" and select your `.tflite` trained model file.
+4. click upload.
+5. go back to the "edit configuration" page and make sure your model file is listed in the `[model]` block, it should look something like:
+
+```
+[model]
+dimension = 9
+file = "models/your_model_file_name_here.tflite"
+size = "s" # Can be one of: xs, s, m, l, xl
+```
+
 ### Retrieving more data from the Raspberry Pi
 
-# Wrap up
+You can download data from the Raspberry Pi as individual `.log` files or `.npz` datasets.
+
+1. Head to <http://impsypi.local:4000>.
+2. Click on either the logs or datasets links.
+3. If you're on the datasets page, you can _generate_ new datasets from all your saved logs and then download them.
+4. If you're on the logs page you can download logs individually.
 
 
 ## Set up IMPSY natively with Python
