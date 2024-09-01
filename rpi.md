@@ -130,7 +130,7 @@ Change the `[model]` block to look like:
 ```
 [model]
 dimension = 4
-file = "models/musicMDRNN-dim4-layers2-units64-mixtures5-scale10.h5"
+file = "models/musicMDRNN-dim4-layers2-units64-mixtures5-scale10.tflite"
 size = "s" # Can be one of: xs, s, m, l, xl
 sigmatemp = 0.01
 pitemp = 1
@@ -252,7 +252,7 @@ The model block looks like:
 ```
 [model]
 dimension = 4
-file = "models/musicMDRNN-dim4-layers2-units64-mixtures5-scale10.h5"
+file = "models/musicMDRNN-dim4-layers2-units64-mixtures5-scale10.tflite"
 size = "s" # Can be one of: xs, s, m, l, xl
 sigmatemp = 0.01
 pitemp = 1
@@ -275,7 +275,7 @@ Next step is to connect the microbit to the IMPSYpi, power it all up and hopeful
 
 ### Pure Data with IMPSYpi
 
-We can test the IMPSYpi by interacting with Pure Data running on your laptop. When you connect over USB, your computer is given the IP address "192.254.172.1" so we just need to configure IMPSY to send messages to that IP.
+We can test the IMPSYpi by interacting with Pure Data running on your laptop. When you connect over USB, your computer is given the IP address "192.254.1.1" (or something else, so check) so we just need to configure IMPSY to send messages to that IP.
 
 Connect an IMPSYpi to your computer, navigate to <http://impsypi.local:4000>, and update the configuration so that:
 
@@ -283,7 +283,7 @@ Connect an IMPSYpi to your computer, navigate to <http://impsypi.local:4000>, an
 # Model configuration
 [model]
 dimension = 4
-file = "models/musicMDRNN-dim4-layers2-units64-mixtures5-scale10.h5"
+file = "models/musicMDRNN-dim4-layers2-units64-mixtures5-scale10.tflite"
 size = "s" # Can be one of: xs, s, m, l, xl
 sigmatemp = 0.01
 pitemp = 1
@@ -292,7 +292,7 @@ timescale = 1
 [osc]
 server_ip = "0.0.0.0" # Address of IMPSY
 server_port = 6000 # Port IMPSY listens on
-client_ip = "169.254.172.1" # Address of the output device
+client_ip = "169.254.1.1" # Address of the output device (figure this out from your network settings, it may vary.)
 client_port = 6001 # Port of the output device
 ```
 (You can remove any other IO block (`midi`, `osc`, `websockets`, `serialmidi`).)
@@ -306,6 +306,8 @@ The pd example should start receiving messages from the IMPSYpi, but to send mes
 3. change to edit mode.
 4. edit the message box that starts with "connect" so that it reads `connect impsypi.local 6000`
 5. Now when you touch the input sliders it sends messages back to the IMPSYpi.
+
+> Another option here would be to run Pure Data directly on your Raspberry Pi. You would just have to install Pd onto your IMPSYpi (so you would need to have wifi or another internet connection set up).
 
 ### Transferring a trained model to the Raspberry Pi
 
