@@ -20,8 +20,8 @@ The workshop schedule is as follows (N.B.: order of presentation may change):
 
 - 10:00 Intro
 - 10:30 [Raspberry Pi and IMPSy]({% link rpi.md %})
-- 12:00 Lunch
-- 13:00 [pyBela, pyTorch, cross-compilation]({% link bela.md %}) (2.5 hours)
+- 13:00 Lunch break
+- 14:00 [pyBela, pyTorch, cross-compilation]({% link bela.md %}) (2.5 hours)
 - 16:30 Discussion and Hacking
 
 # Things to bring to the workshop
