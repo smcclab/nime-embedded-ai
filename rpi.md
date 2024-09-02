@@ -122,7 +122,7 @@ Finally, the SD card is configured to allow ethernet over USB so you can plug yo
 
 3. Hopefully some lights blink and your Pi seems to be booting...
 
-Connecting to the Raspberry Pi should be straightforward: if your computer knows about it over USB-ethernet, you can just type <http://impsypi.local:4000> into a web browser and see the web UI. The pi gives itself the IP address 192.168.1.107 so you might try <http://192.168.1.107:4000> as well if the above doesn't work.
+Connecting to the Raspberry Pi should be straightforward: if your computer knows about it over USB-ethernet, you can just type <http://impsypi.local:4000> into a web browser and see the web UI. The pi gives itself the IP address 169.254.1.107 so you might try <http://169.254.1.107:4000> as well if the above doesn't work.
 
 Now you can poke around the web UI and see what you can do. Most importantly, you can update the configuration file directly, download log files and generate or download datasets. You can't train new models from the web UI (yet!) and it's possibly a bad idea to train models on the slower Raspberry Pis anyway.
 
@@ -310,7 +310,6 @@ musicMDRNN-dim4-layers2-units64-mixtures5-scale10.tflite
 musicMDRNN-dim4-layers2-units64-mixtures5-scale10.keras
 ```
 Both work as IMPSY models but the tflite file is optimised to run on constrained hardware like the Raspberry Pi Zero 2 W.
-
 
 
 ## Testing IMPSY configurations on a computer with Docker
