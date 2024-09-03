@@ -45,7 +45,7 @@ By the end of the workshop, you should have tried out doing some of the followin
 
 IMPSY is a generative AI system designed to integrate into typical NIMEs. IMPSY's job is to receive inputs from a NIME's interface (e.g., knobs, sensors, controllers, etc) and send outputs to a NIME's sound/music generators (e.g., a MIDI synthesiser, Pd patch, Processing sketch).
 
-![IMPSY sits in between a musician's control interface and the sound output.]({% link assets/impsy/predictive_interaction.png %})
+![IMPSY sits in between a musician's control interface and the sound output.]({% link assets/impsy-diagram.jpg %})
 
 The machine learning model in IMPSY is trained to produce the _next_ action in a sequence of control signals. A unique aspect of IMPSY's model is that it can work with a number of control signals simultaneously and that it also predicts the _time_ that the next action will occur. This means that it is particularly useful in NIMEs where we might have a number of sensors (e.g., 8 knobs, 12 light sensors) working together, and where we might be performing music with free or irregular rhythm.
 
